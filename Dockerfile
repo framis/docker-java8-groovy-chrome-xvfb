@@ -6,23 +6,23 @@ MAINTAINER Francois Misslin <francois@revinate.com>
 # Env variables
 #=========
 
-ENV GROOVY_VERSION 2.3.9
-
+ENV GROOVY_VERSION 2.4.5
+ENV CHROME_DRIVER_VERSION 2.20
 
 #=========
-# Install groovy from GVM
+# Install groovy from SDKMan
 #=========
 
-# Installs curl and GVM
+# Installs curl and SDKMan
 RUN apt-get update && apt-get install -y \
     curl \
     unzip
     
-RUN curl -s get.gvmtool.net | bash
+RUN curl -s get.sdkman.io | bash
 
 # Installs Groovy from GVM
-RUN /bin/bash -c "source /root/.gvm/bin/gvm-init.sh && gvm install groovy ${GROOVY_VERSION}"
-ENV GROOVY_HOME /root/.gvm/groovy/current
+RUN /bin/bash -c "source /root/.sdkman/bin/sdkman-init.sh && sdk install groovy ${GROOVY_VERSION}"
+ENV GROOVY_HOME /root/.sdkman/groovy/current
 ENV PATH $GROOVY_HOME/bin:$PATH
 
 
@@ -37,7 +37,7 @@ RUN apt-get update && apt-get install -y \
 	google-chrome-stable
 
 # Chrome driver
-RUN wget -O /tmp/chromedriver.zip http://chromedriver.storage.googleapis.com/2.16/chromedriver_linux64.zip
+RUN wget -O /tmp/chromedriver.zip http://chromedriver.storage.googleapis.com/$CHROME_DRIVER_VERSION/chromedriver_linux64.zip
 RUN unzip /tmp/chromedriver.zip chromedriver -d /usr/bin/
 RUN chmod ugo+rx /usr/bin/chromedriver
 
